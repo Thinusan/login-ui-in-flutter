@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:login/screen/home.dart';
 import 'package:login/screen/signup.dart';
 import 'package:login/utils/color.dart';
 
@@ -64,7 +66,17 @@ class _SigninState extends State<Signin> {
                 reusableTextField(
                     "Enter password", Icons.lock, true,
                     _passwordTextController),
-                firebaseUIBotton(context, "log in", () {}),
+                firebaseUIBotton(context, "log in", () {
+                  FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailTextController.text, password: _passwordTextController.text)
+                      .then((value) {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+
+                  }).onError((error, stackTrace) {
+                    print("Error${error.toString()}");
+                  });
+                }),
+
+
                 signUpOption()
               ],
             ),

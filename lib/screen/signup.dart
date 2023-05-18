@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:login/screen/home.dart';
 import 'package:login/utils/color.dart';
 import '../reusable/reusablewidgets.dart';
+
 
 class signupscreen extends StatefulWidget {
   const signupscreen({Key? key}) : super(key: key);
@@ -60,7 +63,20 @@ class _signupscreenState extends State<signupscreen> {
                         _passwordTextController),
                     const SizedBox(
                       height: 20,
-                    )
+                    ),
+                 firebaseUIBotton(context,"sign up", (){
+                   FirebaseAuth.instance.
+                   createUserWithEmailAndPassword(
+                       email: _emailTextController.text ,
+                       password: _passwordTextController.text)
+                       .then((value){
+                         print("created new account");
+                         Navigator.push(context,
+                         MaterialPageRoute(builder:(context) =>HomeScreen()));
+                   }).onError((error, stackTrace) {
+                     print("error ${error.toString()}");
+                   });
+                 })
 
                   ],
                 ),
